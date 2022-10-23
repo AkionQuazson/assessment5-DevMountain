@@ -1,5 +1,6 @@
 require('dotenv').config()
 const express = require('express')
+const Sequelize = require('sequelize')
 const app = express()
 const cors = require('cors')
 const {SERVER_PORT} = process.env
@@ -10,6 +11,14 @@ app.use(cors())
 
 // DEV
 app.post('/seed', seed)
+const sequelize = new Sequelize(process.env.CONNECTION_STRING, {
+    dialect: 'postgres',
+    dialectOptions: {
+        ssl: {
+            rejectUnauthorized: false
+        }
+    }
+})
 
 // COUNTRIES
 // app.get('/countries', getCountries)
