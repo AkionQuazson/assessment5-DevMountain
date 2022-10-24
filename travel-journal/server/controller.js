@@ -1,4 +1,13 @@
+const Sequelize = require('sequelize')
 
+const sequelize = new Sequelize(process.env.CONNECTION_STRING, {
+    dialect: 'postgres',
+    dialectOptions: {
+        ssl: {
+            rejectUnauthorized: false
+        }
+    }
+})
 
 module.exports = {
     seed: (req, res) => {
@@ -15,7 +24,8 @@ module.exports = {
                 city_id serial primary key,
                 name varchar,
                 rating integer,
-                country_id integer
+                country_id integer,
+                foreign key (country_id) references countries(country_id)
             );
 
             insert into countries (name)
